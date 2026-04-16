@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "School Management API",
+    "description": "API collection for managing schools - Add & List by proximity",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add School",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Delhi Public School\",\n  \"address\": \"Sector 45, Noida, UP\",\n  \"latitude\": 28.5706,\n  \"longitude\": 77.3219\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/addSchool",
+          "host": ["{{base_url}}"],
+          "path": ["api", "addSchool"]
+        },
+        "description": "Adds a new school to the database."
+      },
+      "response": [
+        {
+          "name": "Success - 201",
+          "status": "Created",
+          "code": 201,
+          "body": "{\n  \"success\": true,\n  \"message\": \"School added successfully.\",\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Delhi Public School\",\n    \"address\": \"Sector 45, Noida, UP\",\n    \"latitude\": 28.5706,\n    \"longitude\": 77.3219\n  }\n}"
+        },
+        {
+          "name": "Validation Error - 422",
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed\",\n  \"errors\": [\n    {\n      \"msg\": \"Name is required.\",\n      \"param\": \"name\",\n      \"location\": \"body\"\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "List Schools by Proximity",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/listSchools?latitude=12.9716&longitude=77.5946",
+          "host": ["{{base_url}}"],
+          "path": ["api", "listSchools"],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "12.9716",
+              "description": "User's latitude (Bengaluru)"
+            },
+            {
+              "key": "longitude",
+              "value": "77.5946",
+              "description": "User's longitude (Bengaluru)"
+            }
+          ]
+        },
+        "description": "Returns all schools sorted by distance from user's coordinates."
+      },
+      "response": [
+        {
+          "name": "Success - 200",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"message\": \"Schools fetched and sorted by proximity.\",\n  \"user_location\": {\n    \"latitude\": 12.9716,\n    \"longitude\": 77.5946\n  },\n  \"total\": 5,\n  \"data\": [\n    {\n      \"id\": 2,\n      \"name\": \"Kendriya Vidyalaya\",\n      \"address\": \"MG Road, Bengaluru, KA\",\n      \"latitude\": 12.9716,\n      \"longitude\": 77.5946,\n      \"distance_km\": 0\n    },\n    {\n      \"id\": 3,\n      \"name\": \"Ryan International\",\n      \"address\": \"Andheri West, Mumbai, MH\",\n      \"latitude\": 19.1136,\n      \"longitude\": 72.8697,\n      \"distance_km\": 842.12\n    }\n  ]\n}"
+        },
+        {
+          "name": "Validation Error - 422",
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed\",\n  \"errors\": [\n    {\n      \"msg\": \"Latitude query param is required.\",\n      \"param\": \"latitude\",\n      \"location\": \"query\"\n    }\n  ]\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "description": "Change to your deployed URL for production testing"
+    }
+  ]
+}
