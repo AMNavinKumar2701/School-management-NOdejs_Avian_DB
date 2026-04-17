@@ -20,7 +20,7 @@ https://school-management-nodejs-f58v.onrender.com
 https://school-management-nodejs-f58v.onrender.com/api-docs
 
 
----
+```
 
 ## Project Structure
 
@@ -44,8 +44,7 @@ school-management/
 ├── .env.example
 └── package.json
 
-
----
+```
 
 ## Setup (Local Development)
 
